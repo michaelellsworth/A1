@@ -8,13 +8,13 @@ def unsafe_floor_sqrt(x):
     '''calculate the floor square root using floats'''
     return int((x + 0.5)**(1/2))
 
-def check_floor_root(n, r, power = 2):
-    '''check if r is the powerth floor root of n'''
-    return (r**power <= n) and (n < (r + 1)**power)
+def check_floor_root(number, root, power = 2):
+    '''check if root is the powerth floor root of number'''
+    return (root**power <= number) and (number < (root + 1)**power)
 
-def random_number(n):
-    '''generate a random number with n digits'''
-    return random.randint(10**(n-1), 10**n - 1)
+def random_number(digit):
+    '''generate a random number with digit digits'''
+    return random.randint(10**(digit-1), 10**digit - 1)
 
 def unsafe_failure_rate(number_sizes, samples = 500):
     '''randomly generates a sample of size samples with size digits for each size in the list number_sizes
@@ -24,16 +24,16 @@ def unsafe_failure_rate(number_sizes, samples = 500):
     #construct a list from counting the number of failures with check_floor_root  for each sample in samples
     return [list(map(lambda x: check_floor_root(x, unsafe_floor_sqrt(x), 2), sample)).count(False) for sample in samples]
 
-def floor_square_root(n):
+def floor_square_root(number):
     '''Safely calculates the floor square root of a number never using floats
        Implements the algorithm derived in A1.ipynb
        Equivelant to floor_root with power = 2'''
-    #initialize the root as a default of 0 and cast n to a string
-    root, n = ["0"], str(n)
-    #ensure the length of n is a multiple of power
-    n = "0"*(2 - (len(n) % 2)) + n
-    #divide n into chunks of digits of size power
-    chunks = [n[i:i+2] for i in range(0, len(n), 2)]
+    #initialize the root as a default of 0 and cast number to a string
+    root, number = ["0"], str(n)
+    #ensure the length of number is a multiple of power
+    number = "0"*(2 - (len(n) % 2)) + n
+    #divide number into chunks of digits of size power
+    chunks = [number[i:i+2] for i in range(0, len(n), 2)]
 
     #for every chunk apply the safe square root algorithm
     for i in range(1, len(chunks) + 1):
@@ -47,15 +47,15 @@ def floor_square_root(n):
     #combine the found root into an int
     return(int(''.join(root)))
 
-def floor_root(n, power = 2):
+def floor_root(number, power = 2):
     '''Safely calculates the floor square root of a number never using floats
        Implements the algorithm derived in A1.ipynb'''
-    #initialize the root as a default of 0 and cast n to a string
-    root, n = ["0"], str(n)
-    #ensure the length of n is a multiple of power
-    n = "0"*(power - (len(n) % power)) + n
-    #divide n into chunks of digits of size power
-    chunks = [n[i:i+power] for i in range(0, len(n), power)]
+    #initialize the root as a default of 0 and cast number to a string
+    root, number = ["0"], str(number)
+    #ensure the length of number is a multiple of power
+    number = "0"*(power - (len(number) % power)) + number
+    #divide number into chunks of digits of size power
+    chunks = [number[i:i+power] for i in range(0, len(n), power)]
 
     #for every chunk apply the safe square root algorithm
     for i in range(1, len(chunks) + 1):
@@ -65,6 +65,6 @@ def floor_root(n, power = 2):
             if check_floor_root(int(''.join(chunks[0:i])), int(''.join(root))*10 + j, power):
                 root.append(str(j))
                 break
-            
+
     #combine the found root into an int
     return(int(''.join(root)))
