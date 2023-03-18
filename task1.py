@@ -33,7 +33,7 @@ def floor_square_root(number):
     #ensure the length of number is a multiple of power
     number = "0"*(2 - (len(n) % 2)) + n
     #divide number into chunks of digits of size power
-    chunks = [number[i:i+2] for i in range(0, len(n), 2)]
+    chunks = [number[i:i+2] for i in range(0, len(number), 2)]
 
     #for every chunk apply the safe square root algorithm
     for i in range(1, len(chunks) + 1):
@@ -55,7 +55,7 @@ def floor_root(number, power = 2):
     #ensure the length of number is a multiple of power
     number = "0"*(power - (len(number) % power)) + number
     #divide number into chunks of digits of size power
-    chunks = [number[i:i+power] for i in range(0, len(n), power)]
+    chunks = [number[i:i+power] for i in range(0, len(number), power)]
 
     #for every chunk apply the safe square root algorithm
     for i in range(1, len(chunks) + 1):
