@@ -18,11 +18,14 @@ def random_number(digits):
 
 def unsafe_failure_rate(number_sizes, samples = 500):
     '''randomly generates a sample of size samples with size digits for each size in the list number_sizes
-       then counts how many times unsafe_floor_sqrt gives an incorrect result in each sample using check_floor_sqrt'''
+       then counts how many times unsafe_floor_sqrt gives an incorrect result in each sample using check_floor_sqrt
+       Returns the failure rate as a number between 0 and 1'''
     #generate a list containing a list of random numbers of each size given in number_sizes
-    samples = [[random_number(size) for i in range(samples)] for size in number_sizes]
+    sample_sets = [[random_number(size) for i in range(samples)] for size in number_sizes]
     #construct a list from counting the number of failures with check_floor_root  for each sample in samples
-    return [list(map(lambda x: check_floor_root(x, unsafe_floor_sqrt(x), 2), sample)).count(False) for sample in samples]
+    failure_count = [list(map(lambda x: check_floor_root(x, unsafe_floor_sqrt(x), 2), sample)).count(False) for sample in sample_sets]
+    n = [float(count)/samples for count in failure_count]
+    return n
 
 def floor_square_root(number):
     '''Safely calculates the floor square root of a number never using floats
