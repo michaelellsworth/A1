@@ -5,12 +5,15 @@ import numpy as np
 import random
 
 def unsafe_floor_sqrt(x):
+    '''calculate the floor square root using floats'''
     return int((x + 0.5)**(1/2))
 
 def check_floor_root(n, r, power = 2):
+    '''check if r is the powerth floor root of n'''
     return (r**power <= n) and (n < (r + 1)**power)
 
 def random_number(n):
+    '''generate a random number with n digits'''
     return random.randint(10**(n-1), 10**n - 1)
 
 def unsafe_failure_rate(number_sizes, samples = 500):
@@ -22,8 +25,27 @@ def unsafe_failure_rate(number_sizes, samples = 500):
     return [list(map(lambda x: check_floor_root(x, unsafe_floor_sqrt(x), 2), sample)).count(False) for sample in samples]
 
 def floor_square_root(n):
-    #same function as floor_root just with a different name and power = 2
-    return floor_root(n)
+    '''Safely calculates the floor square root of a number never using floats
+       Implements the algorithm derived in A1.ipynb
+       Equivelant to floor_root with power = 2'''
+    #initialize the root as a default of 0 and cast n to a string
+    root, n = ["0"], str(n)
+    #ensure the length of n is a multiple of power
+    n = "0"*(2 - (len(n) % 2)) + n
+    #divide n into chunks of digits of size power
+    chunks = [n[i:i+2] for i in range(0, len(n), 2)]
+
+    #for every chunk apply the safe square root algorithm
+    for i in range(1, len(chunks) + 1):
+        #check every possible digit to add to the solution
+        for j in range(10):
+            #if the root so far with the digit appended is the floor square root of the chunks so far add the digit and move to the next chunk
+            if check_floor_root(int(''.join(chunks[0:i])), int(''.join(root))*10 + j, 2):
+                root.append(str(j))
+                break
+            
+    #combine the found root into an int
+    return(int(''.join(root)))
 
 def floor_root(n, power = 2):
     '''Safely calculates the floor square root of a number never using floats
@@ -43,5 +65,6 @@ def floor_root(n, power = 2):
             if check_floor_root(int(''.join(chunks[0:i])), int(''.join(root))*10 + j, power):
                 root.append(str(j))
                 break
+            
     #combine the found root into an int
     return(int(''.join(root)))

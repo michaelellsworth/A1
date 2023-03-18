@@ -41,34 +41,40 @@ def define_Ka(a):
 #Do the integral a bunch of ways:
 
 def Kintegral(f, n):
-    return 1
+    '''Numerically integrates f with n evaluations of f using the method chosen in A1.ipynb task 3'''
+    return midpoint(f, n)
 
 #Left Riemann sum
 def riemannL(f, n):
+    '''numerically integrates f using left Riemann sum with n calls to f'''
     h = np.pi/n
     points = np.linspace(0, np.pi - h, n)
     return 2 * np.sum(h * f(points))
 
 #Right Riemann sum
 def riemannR(f, n):
+    '''numerically integrates f using right Riemann sum with n calls to f'''
     h = np.pi/n
     points = np.linspace(0 + h, np.pi, n)
     return 2 * np.sum(h * f(points))
 
 #Midpoint rule
 def midpoint(f, n):
+    '''numerically integrates f using the midpoint rule with n calls to f'''
     h = np.pi/(n)
     points = np.linspace(0, np.pi, n)
     return 2 * np.sum(h * f(points))
 
 #Trapezoid Rule
 def trapezoid(f, n):
+    '''numerically integrates f using the trapezoid rule with n calls to f'''
     h = (np.pi)/(n - 1)
     x = np.linspace(0, np.pi, n)
     values = f(x)
     return (h)*(values[0] + 2 * sum(values[1:n-1]) + values[n-1])
 
 def simpsons(f, n):
+    '''numerically integrates f using Simpson's rule with n calls to f'''
     h = np.pi/(n - 1)
     x = np.linspace(0, np.pi, n)
     values = f(x)
@@ -76,21 +82,21 @@ def simpsons(f, n):
 
 
 
-f = define_Ka(3)
-print(riemannL(f, 5))
-print(f.evals)
-print(riemannR(f, 5))
-print(f.evals)
-print(midpoint(f, 5))
-print(f.evals)
-print(trapezoid(f, 5))
-print(f.evals)
-print(simpsons(f, 5))
-print(f.evals)
+# f = define_Ka(3)
+# print(riemannL(f, 5))
+# print(f.evals)
+# print(riemannR(f, 5))
+# print(f.evals)
+# print(midpoint(f, 5))
+# print(f.evals)
+# print(trapezoid(f, 5))
+# print(f.evals)
+# print(simpsons(f, 5))
+# print(f.evals)
 
-I = integrate.quad(f, 0, np.pi)
-I2 = integrate.quad(f, -np.pi, np.pi)
+# I = integrate.quad(f, 0, np.pi)
+# I2 = integrate.quad(f, -np.pi, np.pi)
 
-print(I2)
+# print(I2)
 
-print(simpsons(f, 5))
+# print(simpsons(f, 5))
