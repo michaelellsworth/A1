@@ -12,9 +12,9 @@ def check_floor_root(number, root, power = 2):
     '''check if root is the powerth floor root of number'''
     return (root**power <= number) and (number < (root + 1)**power)
 
-def random_number(digit):
-    '''generate a random number with digit digits'''
-    return random.randint(10**(digit-1), 10**digit - 1)
+def random_number(digits):
+    '''generate a random number with number of digits, digits'''
+    return random.randint(10**(digits-1), 10**digits - 1)
 
 def unsafe_failure_rate(number_sizes, samples = 500):
     '''randomly generates a sample of size samples with size digits for each size in the list number_sizes
@@ -29,9 +29,9 @@ def floor_square_root(number):
        Implements the algorithm derived in A1.ipynb
        Equivelant to floor_root with power = 2'''
     #initialize the root as a default of 0 and cast number to a string
-    root, number = ["0"], str(n)
+    root, number = ["0"], str(number)
     #ensure the length of number is a multiple of power
-    number = "0"*(2 - (len(n) % 2)) + n
+    number = "0"*(2 - (len(number) % 2)) + number
     #divide number into chunks of digits of size power
     chunks = [number[i:i+2] for i in range(0, len(number), 2)]
 

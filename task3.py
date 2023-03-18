@@ -40,9 +40,9 @@ def define_Ka(a):
 
 #Do the integral a bunch of ways:
 
-def Kintegral(f, n):
-    '''Numerically integrates f with n evaluations of f using the method chosen in A1.ipynb task 3'''
-    return midpoint(f, n)
+def Kintegral(Ka, n):
+    '''Numerically integrates Ka with n evaluations of f using the method chosen in A1.ipynb task 3'''
+    return midpoint(Ka, n)
 
 #Left Riemann sum
 def riemannL(f, n):
