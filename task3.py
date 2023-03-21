@@ -1,6 +1,6 @@
 # Define all functions for Task 3 here.
 import numpy as np
-import scipy.integrate as integrate
+#import scipy.integrate as integrate
 
 
 def counter(original_f):
@@ -38,65 +38,71 @@ def define_Ka(a):
     # Returns the function itself as an object
     return Ka
 
-#Do the integral a bunch of ways:
-
 def Kintegral(Ka, n):
     '''Numerically integrates Ka with n evaluations of f using the method chosen in A1.ipynb task 3'''
-    return midpoint(Ka, n)
+    return trapezoid(Ka, n)
 
+#Do the integral a bunch of ways:
+#Note: all integral methods compute the integral from 0 to pi and then double it since Ka is always even this is done for greater accuracy with fewer evalueations
 #Left Riemann sum
 def riemannL(f, n):
     '''numerically integrates f using left Riemann sum with n calls to f'''
+    #calculating x step
     h = np.pi/n
+    #setting up points to be evaluated
     points = np.linspace(0, np.pi - h, n)
+    #apply left riemann sum rule
     return 2 * np.sum(h * f(points))
 
 #Right Riemann sum
 def riemannR(f, n):
     '''numerically integrates f using right Riemann sum with n calls to f'''
+    #calculating x step
     h = np.pi/n
+    #setting up points to be evaluated
     points = np.linspace(0 + h, np.pi, n)
+    #apply right riemann sum rule
     return 2 * np.sum(h * f(points))
 
 #Midpoint rule
 def midpoint(f, n):
     '''numerically integrates f using the midpoint rule with n calls to f'''
+    #calculating x step
     h = np.pi/(n)
+    #setting up points to be evaluated
     points = np.linspace(0, np.pi, n)
+    #apply midpoint rule
     return 2 * np.sum(h * f(points))
 
 #Trapezoid Rule
 def trapezoid(f, n):
     '''numerically integrates f using the trapezoid rule with n calls to f'''
+    #calculating x step
     h = (np.pi)/(n - 1)
+    #setting up points to be evaluated
     x = np.linspace(0, np.pi, n)
+    #evaluate f at all xs
     values = f(x)
+    #apply trapezoid rule
     return (h)*(values[0] + 2 * sum(values[1:n-1]) + values[n-1])
 
 def simpsons(f, n):
     '''numerically integrates f using Simpson's rule with n calls to f'''
+    if n % 2 != 0:
+         n -= 1
+    #calculating x step
     h = np.pi/(n - 1)
+    #setting up points to be evaluated
     x = np.linspace(0, np.pi, n)
     values = f(x)
+    #apply simpsons rule
     return 2*(h/3) * (values[0] + 2*sum(values[:n-2:2]) + 4*sum(values[1:n-1:2]) + values[n-1])
 
-
-
-# f = define_Ka(3)
-# print(riemannL(f, 5))
-# print(f.evals)
-# print(riemannR(f, 5))
-# print(f.evals)
-# print(midpoint(f, 5))
-# print(f.evals)
-# print(trapezoid(f, 5))
-# print(f.evals)
-# print(simpsons(f, 5))
-# print(f.evals)
-
-# I = integrate.quad(f, 0, np.pi)
-# I2 = integrate.quad(f, -np.pi, np.pi)
-
-# print(I2)
-
-# print(simpsons(f, 5))
+def simpsons(f, n):
+    '''numerically integrates f using Simpson's rule with n or n - 1 calls to f'''
+    # ensuring numberof sub intervals is even
+    if n % 2 != 0: n -= 1
+    #calculating x step
+    h = (np.pi - 0) / n
+    # apply simpsons rule depending on if it is an odd or even iteration and add in the evaluations at the end points
+    return 2* h/3 * (f(0) + f(np.pi) + sum([2*f(0 + i*h) if i%2 == 0 else 4*f(0 + i*h) for i in range(1, n)]))

@@ -30,25 +30,8 @@ def unsafe_failure_rate(number_sizes, samples = 500):
 def floor_square_root(number):
     '''Safely calculates the floor square root of a number never using floats
        Implements the algorithm derived in A1.ipynb
-       Equivelant to floor_root with power = 2'''
-    #initialize the root as a default of 0 and cast number to a string
-    root, number = ["0"], str(number)
-    #ensure the length of number is a multiple of power
-    number = "0"*(2 - (len(number) % 2)) + number
-    #divide number into chunks of digits of size power
-    chunks = [number[i:i+2] for i in range(0, len(number), 2)]
-
-    #for every chunk apply the safe square root algorithm
-    for i in range(1, len(chunks) + 1):
-        #check every possible digit to add to the solution
-        for j in range(10):
-            #if the root so far with the digit appended is the floor square root of the chunks so far add the digit and move to the next chunk
-            if check_floor_root(int(''.join(chunks[0:i])), int(''.join(root))*10 + j, 2):
-                root.append(str(j))
-                break
-            
-    #combine the found root into an int
-    return(int(''.join(root)))
+       Just a special cas of floor_root with power = 2'''
+    return floor_root(number, power = 2)
 
 def floor_root(number, power = 2):
     '''Safely calculates the floor square root of a number never using floats
